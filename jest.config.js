@@ -7,7 +7,7 @@ const presetConfig = createDefaultPreset({
     esModuleInterop: true,
     skipLibCheck: true,
     outDir: './dist',
-    types: ['jest'],
+    types: ['jest', 'node'],
   },
 });
 

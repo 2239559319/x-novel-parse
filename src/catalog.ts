@@ -6,8 +6,12 @@ import { getDOMbyUrl, forceHttps } from './utils';
 function parseCatalogOnePage(doc: Document): CatalogItem[] {
   const aArray = nodeListToArr(doc.querySelectorAll('a'));
 
-  const pickFn = (node: HTMLAnchorElement) =>
-    node.pathname.startsWith(location.pathname);
+  const pickFn = (node: HTMLAnchorElement) => {
+    const url = node.href;
+    const u = new URL(url, location.origin);
+
+    return u.href.startsWith(location.href); 
+  }
 
   const iTree = new ITree(aArray, pickFn as any);
   const catalogs: HTMLAnchorElement[] = iTree.getSiblingNodes() as any;
