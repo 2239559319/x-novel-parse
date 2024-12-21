@@ -25,7 +25,14 @@ export function findMostFrequentNode(nodes: Node[]) {
   return { node: mostFrequentNode, indices, maxCount };
 }
 
-export async function getDOMbyUrl(url: string) {
+export async function getDOMbyUrl(_url: string) {
+  let url = _url;
+
+  if (__DEV__) {
+    const u = new URL(_url);
+    url = window.location.origin + u.pathname;
+  }
+
   const res = await fetch(url);
 
   const arrayBuffer = await res.arrayBuffer();

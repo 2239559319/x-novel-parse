@@ -1,6 +1,6 @@
 const { join } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { DefinePlugin } = require('webpack');
+const { DefinePlugin, BannerPlugin } = require('webpack');
 require('dotenv').config();
 
 function getDomain() {
@@ -11,6 +11,8 @@ function getDomain() {
 
 const domain = getDomain();
 
+const CATALOG_URLWithQuate = JSON.stringify(process.env.CATALOG_URL);
+
 /**
  * @type {import('webpack').Configuration}
  */
@@ -18,7 +20,6 @@ const config = {
   mode: 'development',
   entry: {
     index: './src/index.ts',
-    dev: './dev/entry.js',
   },
   output: {
     filename: '[name].js',
@@ -44,15 +45,33 @@ const config = {
     new HtmlWebpackPlugin({
       template: join(__dirname, './dev/index.html'),
       inject: 'body',
-      excludeChunks: ['index']
     }),
     new DefinePlugin({
       __DOMAIN__: JSON.stringify(domain),
-      __CATALOG_URL__: JSON.stringify(process.env.CATALOG_URL),
+      __CATALOG_URL__: CATALOG_URLWithQuate,
       __ES6__: JSON.stringify(true),
-    })
+      __DEV__: JSON.stringify(true),
+    }),
+    new BannerPlugin({
+      banner: `(function(location) {
+        (() => {
+          const base = document.createElement('base');
+          base.href = ${CATALOG_URLWithQuate};
+          document.head.appendChild(base);
+          window.CATALOG_URL = ${CATALOG_URLWithQuate};
+        })();
+      `,
+      raw: true,
+      entryOnly: true,
+    }),
+    new BannerPlugin({
+      banner: `})(new URL(${JSON.stringify(process.env.CATALOG_URL)}));`,
+      raw: true,
+      entryOnly: true,
+      footer: true,
+    }),
   ],
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   devServer: {
     port: 9999,
     proxy: [

@@ -21,6 +21,7 @@ module.exports = defineConfig([
       replace({
         preventAssignment: true,
         __ES6__: JSON.stringify(true),
+        __DEV__: JSON.stringify(false),
       }),
     ],
   },
@@ -48,6 +49,7 @@ module.exports = defineConfig([
       replace({
         preventAssignment: true,
         __ES6__: JSON.stringify(false),
+        __DEV__: JSON.stringify(false),
       }),
     ],
   },

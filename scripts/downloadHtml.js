@@ -1,18 +1,10 @@
 require('dotenv').config();
 const { writeFile, ensureDir } = require('fs-extra');
 const { join } = require('node:path');
+const { getText } = require('./utils');
 
 async function download(url) {
-  const res = await fetch(url);
-
-  const arrayBuffer = await res.arrayBuffer();
-  const decoder = new TextDecoder('utf-8');
-  let domText = decoder.decode(arrayBuffer);
-
-  if (domText.includes('gbk')) {
-    const gbkDecoder = new TextDecoder('gbk');
-    domText = gbkDecoder.decode(arrayBuffer);
-  }
+  const domText = await getText(url);
 
   const outputPath = join(__dirname, '../dev');
   await ensureDir(outputPath);

@@ -1,1 +1,1 @@
-import './catalog';
+export const a = '123';

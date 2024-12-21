@@ -7,7 +7,7 @@ function parseCatalogOnePage(doc: Document): CatalogItem[] {
   const aArray = nodeListToArr(doc.querySelectorAll('a'));
 
   const pickFn = (node: HTMLAnchorElement) =>
-    node.href.startsWith(location.href);
+    node.pathname.startsWith(location.pathname);
 
   const iTree = new ITree(aArray, pickFn as any);
   const catalogs: HTMLAnchorElement[] = iTree.getSiblingNodes() as any;
@@ -36,7 +36,7 @@ function parseCatalogOnePage(doc: Document): CatalogItem[] {
 
 const filterSelectFn = (node: any) => includes(node.value, location.pathname);
 
-async function parseCatalog(doc: Document) {
+export async function parseCatalog(doc: Document) {
   const selects = nodeListToArr(doc.querySelectorAll('select'));
   const filteredSelects = selects.filter(filterSelectFn);
 
@@ -64,8 +64,6 @@ async function parseCatalog(doc: Document) {
       }),
     );
     const catalog = flat(_catalog);
-    console.log(catalog);
+    return catalog
   }
 }
-
-parseCatalog(document);
