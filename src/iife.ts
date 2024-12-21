@@ -1,3 +1,4 @@
-import { parseCatalog } from './catalog';
+import { getContent } from './text';
 
-parseCatalog(document).then(console.log);
+const content = getContent(document);
+console.log(content);

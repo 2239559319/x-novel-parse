@@ -49,3 +49,19 @@ export function forceHttps(url: string) {
   }
   return url;
 }
+
+export function getTextNodes(node: Node): Text[] {
+  const textNodes = [];
+  const childNodes = node.childNodes;
+
+  for (let i = 0; i < childNodes.length; i++) {
+    const child = childNodes[i];
+    if (child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()) {
+      textNodes.push(child);
+    } else if (child.nodeType === Node.ELEMENT_NODE) {
+      textNodes.push(...getTextNodes(child));
+    }
+  }
+
+  return textNodes;
+}

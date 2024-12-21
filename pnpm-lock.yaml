@@ -17,6 +17,9 @@ devDependencies:
   '@rollup/plugin-replace':
     specifier: ^6.0.2
     version: 6.0.2(rollup@4.28.1)
+  '@rollup/plugin-terser':
+    specifier: ^0.4.4
+    version: 0.4.4(rollup@4.28.1)
   '@rollup/plugin-typescript':
     specifier: ^12.1.2
     version: 12.1.2(rollup@4.28.1)(tslib@2.8.1)(typescript@5.7.2)
@@ -1620,6 +1623,21 @@ packages:
       '@rollup/pluginutils': 5.1.4(rollup@4.28.1)
       magic-string: 0.30.17
       rollup: 4.28.1
+    dev: true
+
+  /@rollup/plugin-terser@0.4.4(rollup@4.28.1):
+    resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 4.28.1
+      serialize-javascript: 6.0.2
+      smob: 1.5.0
+      terser: 5.37.0
     dev: true
 
   /@rollup/plugin-typescript@12.1.2(rollup@4.28.1)(tslib@2.8.1)(typescript@5.7.2):
@@ -5320,6 +5338,10 @@ packages:
   /slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+    dev: true
+
+  /smob@1.5.0:
+    resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
     dev: true
 
   /sockjs@0.3.24:
