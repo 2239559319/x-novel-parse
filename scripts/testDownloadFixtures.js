@@ -34,8 +34,6 @@ describe("load catalog config", () => {
 }
 
 async function downloadCatalogUrls() {
-  const fixturesDir = join(__dirname, '../__tests__/catalog/fixtures');
-  await remove(fixturesDir);
 
   for (let i = 0; i < catalogUrls.length; i++) {
     const url = catalogUrls[i];
@@ -53,6 +51,7 @@ async function downloadCatalogUrls() {
       `<base href="${url}" /></head>`,
     );
 
+    await remove(outpath);
     await writeFile(outpath, domTextWithBase, {
       encoding: 'utf-8',
     });
@@ -63,6 +62,7 @@ async function downloadCatalogUrls() {
       i.toString(),
       'meta.json',
     );
+    await remove(metaOutpath);
     await writeFile(
       metaOutpath,
       JSON.stringify({
@@ -81,6 +81,7 @@ async function downloadCatalogUrls() {
       'index.test.ts',
     );
 
+    await remove(testFilepath);
     await writeFile(testFilepath, getTestjs(url), {
       encoding: 'utf-8',
     });
