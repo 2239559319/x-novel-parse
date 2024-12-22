@@ -65,3 +65,14 @@ export function getTextNodes(node: Node): Text[] {
 
   return textNodes;
 }
+
+export function isConsecutive(arr: number[]) {
+  if (arr.length === 0 || arr.length === 1) return false;
+
+  const min = arr[0];
+  const max = arr[arr.length - 1];
+
+  const expectedLength = max - min + 1;
+
+  return expectedLength === arr.length;
+}

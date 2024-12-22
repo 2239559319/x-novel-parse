@@ -1,7 +1,7 @@
 import { ITree } from './datastructure';
 import { getTextNodes } from './utils';
 
-export function getContent(doc: Document) {
+export function parseContent(doc: Document) {
   const textArr = getTextNodes(doc);
   const iTree = new ITree(
     textArr,
@@ -12,6 +12,6 @@ export function getContent(doc: Document) {
 
   return textsNodes
     ?.reverse()
-    .map((node) => node.textContent)
+    .map((node) => node.textContent.trim())
     .join('\n');
 }

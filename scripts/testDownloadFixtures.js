@@ -1,19 +1,18 @@
 const { getText } = require('./utils');
 const { writeFile, ensureFile, remove } = require('fs-extra');
 const { join } = require('path');
-const { catalogUrls } = require('../config/catalog');
+const { catalogUrls, textUrls } = require('../config/catalog');
 
-function getTestjs(url) {
+function getTestjs(url, type) {
+  const exportName = type === 'catalog' ? 'parseCatalog' : 'getContent';
+
   const jstemplete = `
 const { join } = require("node:path");
 const fs = require("fs");
 const nodefetch = require("node-fetch");
-const { parseCatalog } = require("../../../../dist/cjs/index-es6");
+const { ${exportName} } = require("../../../../dist/cjs/index-es6");
 
 describe("load catalog config", () => {
-  beforeAll(() => {
-    global.fetch = nodefetch;
-  });
 
   const filepath = join(__dirname, "./index.html");
   const html = fs.readFileSync(filepath, "utf-8");
@@ -25,7 +24,7 @@ describe("load catalog config", () => {
       value: new URL(${JSON.stringify(url)}),
     });
 
-    const res = await parseCatalog(document);
+    const res = await ${exportName}(document);
     expect(res).toMatchSnapshot();
   });
 });
@@ -33,13 +32,15 @@ describe("load catalog config", () => {
   return jstemplete;
 }
 
-async function downloadCatalogUrls() {
-  for (let i = 0; i < catalogUrls.length; i++) {
-    const url = catalogUrls[i];
+async function downloadCatalogUrls(type) {
+  const urls = type === 'catalog' ? catalogUrls : textUrls;
+
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
     const domText = await getText(url);
     const outpath = join(
       __dirname,
-      '../__tests__/catalog/fixtures',
+      `../__tests__/${type}/fixtures`,
       i.toString(),
       'index.html',
     );
@@ -57,7 +58,7 @@ async function downloadCatalogUrls() {
 
     const metaOutpath = join(
       __dirname,
-      '../__tests__/catalog/fixtures',
+      `../__tests__/${type}/fixtures`,
       i.toString(),
       'meta.json',
     );
@@ -75,16 +76,17 @@ async function downloadCatalogUrls() {
 
     const testFilepath = join(
       __dirname,
-      '../__tests__/catalog/fixtures',
+      `../__tests__/${type}/fixtures`,
       i.toString(),
       'index.test.ts',
     );
 
     await remove(testFilepath);
-    await writeFile(testFilepath, getTestjs(url), {
+    await writeFile(testFilepath, getTestjs(url, type), {
       encoding: 'utf-8',
     });
   }
 }
 
-downloadCatalogUrls();
+downloadCatalogUrls('catalog');
+downloadCatalogUrls('text');

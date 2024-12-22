@@ -18,11 +18,11 @@
     "build:js": "rollup -c",
     "build:types": "tsc -d --outDir lib && api-extractor run --local --verbose",
     "build": "pnpm build:types && pnpm build:js",
-    "pretest": "pnpm updatetest && pnpm build",
+    "pretest": "pnpm updatetest && pnpm build:js",
     "updatetest": "node scripts/testDownloadFixtures.js",
     "test": "jest"
   },
-  "keywords": [],
+  "keywords": ["novel_reader", "小说阅读", "小说转码"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
