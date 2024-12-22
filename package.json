@@ -2,7 +2,7 @@
   "packageManager": "pnpm@8.11.0",
   "name": "x-novel-parse",
   "version": "0.0.1",
-  "description": "",
+  "description": "小说转码，获取目录以及小说页内容",
   "main": "./dist/esm/index-es6.js",
   "exports": {
     ".": "./dist/esm/index-es6.js",
@@ -22,9 +22,13 @@
     "updatetest": "node scripts/testDownloadFixtures.js",
     "test": "jest"
   },
-  "keywords": ["novel_reader", "小说阅读", "小说转码"],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["novel_reader", "小说阅读", "小说转码", "小说页"],
+  "author": "w2239559319@outlook.com",
+  "repository": {
+    "url": "https://github.com/2239559319/x-novel-parse",
+    "type": "git"
+  },
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
