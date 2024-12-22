@@ -23,7 +23,12 @@
     "updatetest": "node scripts/testDownloadFixtures.js",
     "test": "jest"
   },
-  "keywords": ["novel_reader", "小说阅读", "小说转码", "小说页"],
+  "keywords": [
+    "novel_reader",
+    "小说阅读",
+    "小说转码",
+    "小说页"
+  ],
   "author": "w2239559319@outlook.com",
   "repository": {
     "url": "https://github.com/2239559319/x-novel-parse",
@@ -39,7 +44,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/jest": "^29.5.14",
-    "@types/jest-specific-snapshot": "^0.5.9",
     "@types/node": "^22.10.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
@@ -47,8 +51,6 @@
     "html-webpack-plugin": "^5.6.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "jest-specific-snapshot": "^8.0.0",
-    "node-fetch": "2",
     "prettier": "^3.4.2",
     "rollup": "^4.28.1",
     "ts-jest": "^29.2.5",
