@@ -1,4 +1,5 @@
 import { getContent } from './text';
+import { parseCatalog } from './catalog';
 
-const content = getContent(document);
-console.log(content);
+const catalog = parseCatalog(document);
+console.log(catalog);

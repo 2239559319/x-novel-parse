@@ -4,14 +4,14 @@ const { DefinePlugin, BannerPlugin } = require('webpack');
 require('dotenv').config();
 
 function getDomain() {
-  const _url = process.env.CATALOG_URL;
+  const _url = process.env.DEBUG_URL;
   const url = new URL(_url);
   return url.origin;
 }
 
 const domain = getDomain();
 
-const CATALOG_URLWithQuate = JSON.stringify(process.env.CATALOG_URL);
+const DEBUG_URLWithQuate = JSON.stringify(process.env.DEBUG_URL);
 
 /**
  * @type {import('webpack').Configuration}
@@ -19,7 +19,7 @@ const CATALOG_URLWithQuate = JSON.stringify(process.env.CATALOG_URL);
 const config = {
   mode: 'development',
   entry: {
-    index: './src/index.ts',
+    index: './src/iife.ts',
   },
   output: {
     filename: '[name].js',
@@ -48,7 +48,7 @@ const config = {
     }),
     new DefinePlugin({
       __DOMAIN__: JSON.stringify(domain),
-      __CATALOG_URL__: CATALOG_URLWithQuate,
+      __DEBUG_URL__: DEBUG_URLWithQuate,
       __ES6__: JSON.stringify(true),
       __DEV__: JSON.stringify(true),
     }),
@@ -56,16 +56,16 @@ const config = {
       banner: `(function(location) {
         (() => {
           const base = document.createElement('base');
-          base.href = ${CATALOG_URLWithQuate};
+          base.href = ${DEBUG_URLWithQuate};
           document.head.appendChild(base);
-          window.CATALOG_URL = ${CATALOG_URLWithQuate};
+          window.DEBUG_URL = ${DEBUG_URLWithQuate};
         })();
       `,
       raw: true,
       entryOnly: true,
     }),
     new BannerPlugin({
-      banner: `})(new URL(${JSON.stringify(process.env.CATALOG_URL)}));`,
+      banner: `})(new URL(${JSON.stringify(process.env.DEBUG_URL)}));`,
       raw: true,
       entryOnly: true,
       footer: true,

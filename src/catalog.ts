@@ -3,7 +3,7 @@ import { ITree } from './datastructure';
 import { nodeListToArr, includes, flat } from './polyfill';
 import { getDOMbyUrl, forceHttps } from './utils';
 
-function parseCatalogOnePage(doc: Document): CatalogItem[] {
+export function parseCatalog(doc: Document): CatalogItem[] {
   const aArray = nodeListToArr(doc.querySelectorAll('a'));
 
   const pickFn = (node: HTMLAnchorElement) => {
@@ -36,38 +36,4 @@ function parseCatalogOnePage(doc: Document): CatalogItem[] {
     .filter((v) => !!v)
     .reverse();
   return urls;
-}
-
-const filterSelectFn = (node: any) => includes(node.value, location.pathname);
-
-export async function parseCatalog(doc: Document) {
-  const selects = nodeListToArr(doc.querySelectorAll('select'));
-  const filteredSelects = selects.filter(filterSelectFn);
-
-  if (filteredSelects.length === 0 || filteredSelects.length > 1) {
-    const catalog = parseCatalogOnePage(doc);
-    return catalog;
-  } else {
-    const select = filteredSelects[0] as HTMLSelectElement;
-    const options = nodeListToArr(select.querySelectorAll('option'));
-    const linkUrls = options
-      .map((node: HTMLOptionElement) => {
-        if (filterSelectFn(node)) {
-          return node.value;
-        } else {
-          return '';
-        }
-      })
-      .filter((v) => !!v).map(forceHttps);
-
-    const _catalog = await Promise.all(
-      linkUrls.map(async (catalogUrl) => {
-        const doc = await getDOMbyUrl(catalogUrl);
-        const urls = parseCatalogOnePage(doc);
-        return urls;
-      }),
-    );
-    const catalog = flat(_catalog);
-    return catalog
-  }
 }

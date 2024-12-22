@@ -16,4 +16,4 @@ async function download(url) {
   console.log('download html done')
 }
 
-download(process.env.CATALOG_URL);
+download(process.env.DEBUG_URL);
