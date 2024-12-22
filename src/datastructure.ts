@@ -55,6 +55,9 @@ export class ITree {
   }
 
   private isChoosed(indices: number[]) {
+    if (indices.length === 0) {
+      return false;
+    }
     const totalCount = indices.length;
     let passCount = 0;
 

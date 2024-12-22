@@ -1,28 +1,49 @@
+function removeNotConsecutive(indices: number[]) {
+  if (indices.length === 0) {
+    return [];
+  }
+
+  const res = [];
+  let lastConsecutive = 0;
+  for (let i = 1; i < indices.length; i++) {
+    if (indices[i - 1] === indices[i] - 1) {
+      res.push(indices[i - 1]);
+      lastConsecutive = i;
+    }
+  }
+  res.push(indices[lastConsecutive]);
+  return res;
+}
+
 export function findMostFrequentNode(nodes: Node[]) {
-  let maxCount = 0;
-  let mostFrequentNode = null;
-  const indices = [];
-
+  const map = new WeakMap();
   for (let i = 0; i < nodes.length; i++) {
-    let count = 1;
-    const currentIndices = [i];
-
-    for (let j = i + 1; j < nodes.length; j++) {
-      if (nodes[i] === nodes[j]) {
-        count++;
-        currentIndices.push(j);
-      }
+    const node = nodes[i];
+    if (!map.has(node)) {
+      map.set(node, []);
     }
 
-    if (count > maxCount) {
+    map.set(node, [...map.get(node), i]);
+  }
+
+  let mostFrequentNode = null;
+  let maxCount = 0;
+  let resIndices = [];
+
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const indices = removeNotConsecutive(map.get(node));
+    const count = indices.length;
+
+
+    if (count > maxCount && isConsecutive(indices)) {
       maxCount = count;
-      mostFrequentNode = nodes[i];
-      indices.length = 0;
-      indices.push(...currentIndices);
+      mostFrequentNode = node;
+      resIndices = [...indices];
     }
   }
 
-  return { node: mostFrequentNode, indices, maxCount };
+  return { node: mostFrequentNode, indices: resIndices, maxCount };
 }
 
 export async function getDOMbyUrl(_url: string) {
@@ -76,3 +97,4 @@ export function isConsecutive(arr: number[]) {
 
   return expectedLength === arr.length;
 }
+;
