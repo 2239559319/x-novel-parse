@@ -10,8 +10,8 @@ export function parseCatalog(doc: Document): CatalogItem[] {
     const url = node.href;
     const u = new URL(url, location.origin);
 
-    return u.href.startsWith(location.href); 
-  }
+    return u.href.startsWith(location.href);
+  };
 
   const iTree = new ITree(aArray, pickFn as any);
   const catalogs: HTMLAnchorElement[] = iTree.getSiblingNodes() as any;

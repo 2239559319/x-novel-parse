@@ -34,7 +34,6 @@ describe("load catalog config", () => {
 }
 
 async function downloadCatalogUrls() {
-
   for (let i = 0; i < catalogUrls.length; i++) {
     const url = catalogUrls[i];
     const domText = await getText(url);

@@ -35,7 +35,6 @@ export class ITree {
     }
 
     return null;
-
   }
 
   private _getParent(arr: Node[]) {

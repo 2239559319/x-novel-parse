@@ -13,7 +13,7 @@ async function download(url) {
   await writeFile(filename, domText, {
     encoding: 'utf-8',
   });
-  console.log('download html done')
+  console.log('download html done');
 }
 
 download(process.env.DEBUG_URL);
