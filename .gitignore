@@ -3,3 +3,4 @@ dev/index.html
 dist
 __tests__
 lib
+benchmark
