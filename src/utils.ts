@@ -1,17 +1,22 @@
-function removeNotConsecutive(indices: number[]) {
-  if (indices.length === 0) {
-    return [];
+function findMaxConsecutive(indices: number[]) {
+  if (indices.length === 0 || indices.length === 1) {
+    return indices;
   }
+  
+  let res = [];
+  let i = 0;
+  while (i < indices.length) {
+    const curArr = [indices[i]];
+    while (i + 1 < indices.length && indices[i] + 1 === indices[i + 1]) {
+      curArr.push(indices[i + 1]);
+      i += 1;
+    }
+    i += 1;
 
-  const res = [];
-  let lastConsecutive = 0;
-  for (let i = 1; i < indices.length; i++) {
-    if (indices[i - 1] === indices[i] - 1) {
-      res.push(indices[i - 1]);
-      lastConsecutive = i;
+    if (curArr.length > res.length) {
+      res = curArr;
     }
   }
-  res.push(indices[lastConsecutive]);
   return res;
 }
 
@@ -32,7 +37,7 @@ export function findMostFrequentNode(nodes: Node[]) {
 
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    const indices = removeNotConsecutive(map.get(node));
+    const indices = findMaxConsecutive(map.get(node));
     const count = indices.length;
 
 
