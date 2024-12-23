@@ -20,7 +20,7 @@ function findMaxConsecutive(indices: number[]) {
   return res;
 }
 
-export function findMostFrequentNode(nodes: Node[]) {
+export function findMostFrequentNode(nodes: Node[], set: Set<number>) {
   const map = new WeakMap();
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
@@ -40,8 +40,7 @@ export function findMostFrequentNode(nodes: Node[]) {
     const indices = findMaxConsecutive(map.get(node));
     const count = indices.length;
 
-
-    if (count > maxCount && isConsecutive(indices)) {
+    if (count > maxCount && isConsecutive(indices) && !set.has(indices[0])) {
       maxCount = count;
       mostFrequentNode = node;
       resIndices = [...indices];
@@ -84,7 +83,7 @@ export function getTextNodes(node: Node): Text[] {
     const child = childNodes[i];
     if (child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()) {
       textNodes.push(child);
-    } else if (child.nodeType === Node.ELEMENT_NODE) {
+    } else if (child.nodeType === Node.ELEMENT_NODE && child.nodeName !== 'SCRIPT' && child.nodeName !== 'STYLE') {
       textNodes.push(...getTextNodes(child));
     }
   }
@@ -102,4 +101,16 @@ export function isConsecutive(arr: number[]) {
 
   return expectedLength === arr.length;
 }
-;
+
+export function countChineseCharacters(str) {
+  let count = 0;
+
+  for (let i = 0; i < str.length; i++) {
+      const charCode = str.charCodeAt(i);
+      if (charCode >= 0x4e00 && charCode <= 0x9fa5) {
+          count++;
+      }
+  }
+
+  return count;
+}

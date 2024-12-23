@@ -9,49 +9,56 @@ export class ITree {
 
   public getSiblingNodes() {
     const _tempArr = cloneArr(this.arr);
-    let consecutiveArr = [];
+    let longestArr = [];
+
+    const set = new Set<number>();
+    let res = [];
 
     const p1Arr = this._getParent(_tempArr);
-    const { indices: p1Indices } = findMostFrequentNode(p1Arr);
-    if (this.isChoosed(p1Indices)) {
-      return this.getChoosed(p1Indices);
+    const { indices: p1Indices } = findMostFrequentNode(p1Arr, set);
+    if (this.isChoosed(p1Indices) && p1Indices.length > res.length) {
+      res = this.getChoosed(p1Indices);
+      this.addToSet(p1Indices, set);
     }
-    if (isConsecutive(p1Indices) && p1Indices.length > consecutiveArr.length) {
-      consecutiveArr = this.getChoosed(p1Indices);
+    if (p1Indices.length > longestArr.length) {
+      longestArr = this.getChoosed(p1Indices);
     }
 
     const p2Arr = this._getParent(p1Arr);
-    const { indices: p2Indices } = findMostFrequentNode(p2Arr);
-    if (this.isChoosed(p2Indices)) {
-      return this.getChoosed(p2Indices);
+    const { indices: p2Indices } = findMostFrequentNode(p2Arr, set);
+    if (this.isChoosed(p2Indices) && p2Indices.length > res.length) {
+      res = this.getChoosed(p2Indices);
+      this.addToSet(p2Indices, set);
     }
-    if (isConsecutive(p2Indices) && p2Indices.length > consecutiveArr.length) {
-      consecutiveArr = this.getChoosed(p2Indices);
+    if (p2Indices.length > longestArr.length) {
+      longestArr = this.getChoosed(p2Indices);
     }
 
     const p3Arr = this._getParent(p2Arr);
-    const { indices: p3Indices } = findMostFrequentNode(p3Arr);
-    if (this.isChoosed(p3Indices)) {
-      return this.getChoosed(p3Indices);
+    const { indices: p3Indices } = findMostFrequentNode(p3Arr, set);
+    if (this.isChoosed(p3Indices) && p3Indices.length > res.length) {
+      res = this.getChoosed(p3Indices);
+      this.addToSet(p3Indices, set);
     }
-    if (isConsecutive(p3Indices) && p3Indices.length > consecutiveArr.length) {
-      consecutiveArr = this.getChoosed(p3Indices);
+    if (p3Indices.length > longestArr.length) {
+      longestArr = this.getChoosed(p3Indices);
     }
 
     const p4Arr = this._getParent(p3Arr);
-    const { indices: p4Indices } = findMostFrequentNode(p4Arr);
-    if (this.isChoosed(p4Indices)) {
-      return this.getChoosed(p4Indices);
+    const { indices: p4Indices } = findMostFrequentNode(p4Arr, set);
+    if (this.isChoosed(p4Indices) && p4Indices.length > res.length) {
+      res = this.getChoosed(p4Indices);
+      this.addToSet(p4Indices, set);
     }
-    if (isConsecutive(p4Indices) && p4Indices.length > consecutiveArr.length) {
-      consecutiveArr = this.getChoosed(p4Indices);
+    if (p4Indices.length > longestArr.length) {
+      longestArr = this.getChoosed(p4Indices);
     }
 
-    return consecutiveArr;
+    return res.length ? res : longestArr;
   }
 
   private _getParent(arr: Node[]) {
-    return arr.map((node) => node.parentNode);
+    return arr.map((node) => node.parentNode ?? node);
   }
 
   private isChoosed(indices: number[]) {
@@ -82,5 +89,11 @@ export class ITree {
       res.push(node);
     }
     return res.reverse();
+  }
+
+  private addToSet(arr: number[], set: Set<number>) {
+    for (const item of arr) {
+      set.add(item);
+    }
   }
 }

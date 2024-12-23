@@ -10,7 +10,7 @@ export function parseCatalog(doc: Document): CatalogItem[] {
     const u = new URL(url, location.origin);
 
     const rawHref = node.getAttribute('href');
-    return u.href.startsWith(location.href) && !rawHref.startsWith('#');
+    return u.href.startsWith(location.href) && !rawHref?.startsWith('#');
   };
 
   const iTree = new ITree(aArray, pickFn as any);
@@ -23,7 +23,7 @@ export function parseCatalog(doc: Document): CatalogItem[] {
       const url = node.href;
       const rawHref = node.getAttribute('href');
 
-      const res = s.has(url) || rawHref.startsWith('#')
+      const res = s.has(url) || rawHref?.startsWith('#')
         ? null
         : {
             name: node.textContent,
