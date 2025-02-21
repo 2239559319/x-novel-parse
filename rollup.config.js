@@ -26,6 +26,9 @@ function createConfig(format) {
           preventAssignment: true,
           __ES6__: JSON.stringify(true),
           __DEV__: JSON.stringify(false),
+          'Node.TEXT_NODE': JSON.stringify(3),
+          'Node.ELEMENT_NODE': JSON.stringify(1)
+
         }),
         format === 'esm' ? terser() : null,
       ].filter((v) => !!v),
