@@ -1,13 +1,13 @@
 {
   "packageManager": "pnpm@8.11.0",
   "name": "x-novel-parse",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "小说转码，获取目录以及小说页内容",
   "main": "./dist/cjs/index-es6.js",
   "exports": {
     "import": "./dist/esm/index-es6.js",
     "require": "./dist/cjs/index-es6.js",
-    "./es5": "./dist/esm/index-es5.js"
+    "default": "./dist/cjs/index-es6.js"
   },
   "types": "./dist/index.d.ts",
   "files": [
