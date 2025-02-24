@@ -44,16 +44,6 @@ export class ITree {
       longestArr = this.getChoosed(p3Indices);
     }
 
-    const p4Arr = this._getParent(p3Arr);
-    const { indices: p4Indices } = findMostFrequentNode(p4Arr, set);
-    if (this.isChoosed(p4Indices) && p4Indices.length > res.length) {
-      res = this.getChoosed(p4Indices);
-      this.addToSet(p4Indices, set);
-    }
-    if (p4Indices.length > longestArr.length) {
-      longestArr = this.getChoosed(p4Indices);
-    }
-
     return res.length ? res : longestArr;
   }
 
