@@ -5,6 +5,7 @@ export function parseContent(doc: Document) {
   const textArr = getTextNodes(doc);
   const iTree = new ITree(
     textArr,
+    true,
     (node: Text) => countChineseCharacters(node.textContent) > 10,
   );
 

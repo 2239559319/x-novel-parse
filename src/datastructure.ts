@@ -4,6 +4,7 @@ import { findMostFrequentNode, isConsecutive } from './utils';
 export class ITree {
   constructor(
     public arr: Node[],
+    public isText: boolean,
     public pickFn?: (node: Node) => boolean,
   ) {}
 
@@ -15,7 +16,7 @@ export class ITree {
     let res = [];
 
     const p1Arr = this._getParent(_tempArr);
-    const { indices: p1Indices } = findMostFrequentNode(p1Arr, set);
+    const { indices: p1Indices } = findMostFrequentNode(p1Arr, _tempArr, set, this.isText);
     if (this.isChoosed(p1Indices) && p1Indices.length > res.length) {
       res = this.getChoosed(p1Indices);
       this.addToSet(p1Indices, set);
@@ -25,7 +26,7 @@ export class ITree {
     }
 
     const p2Arr = this._getParent(p1Arr);
-    const { indices: p2Indices } = findMostFrequentNode(p2Arr, set);
+    const { indices: p2Indices } = findMostFrequentNode(p2Arr, p1Arr, set, this.isText);
     if (this.isChoosed(p2Indices) && p2Indices.length > res.length) {
       res = this.getChoosed(p2Indices);
       this.addToSet(p2Indices, set);
@@ -35,7 +36,7 @@ export class ITree {
     }
 
     const p3Arr = this._getParent(p2Arr);
-    const { indices: p3Indices } = findMostFrequentNode(p3Arr, set);
+    const { indices: p3Indices } = findMostFrequentNode(p3Arr, p2Arr, set, this.isText);
     if (this.isChoosed(p3Indices) && p3Indices.length > res.length) {
       res = this.getChoosed(p3Indices);
       this.addToSet(p3Indices, set);

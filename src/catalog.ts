@@ -13,7 +13,7 @@ export function parseCatalog(doc: Document): CatalogItem[] {
     return u.href.startsWith(location.href) && !rawHref?.startsWith('#');
   };
 
-  const iTree = new ITree(aArray, pickFn as any);
+  const iTree = new ITree(aArray, false, pickFn as any);
   const catalogs: HTMLAnchorElement[] = iTree.getSiblingNodes() as any;
 
   const s = new Set();

@@ -1,13 +1,23 @@
-function findMaxConsecutive(indices: number[]) {
+const textExcludeTag = new Set(['H1', 'A', 'UL', 'LI']);
+
+function findMaxConsecutive(indices: number[], childNodes: Node[]) {
   if (indices.length === 0 || indices.length === 1) {
     return indices;
   }
-  
+
   let res = [];
   let i = 0;
   while (i < indices.length) {
     const curArr = [indices[i]];
-    while (i + 1 < indices.length && indices[i] + 1 === indices[i + 1]) {
+
+    const nodeName = childNodes[indices[i]].nodeName;
+
+    while (
+      i + 1 < indices.length &&
+      indices[i] + 1 === indices[i + 1] &&
+      childNodes[indices[i + 1]].nodeName === nodeName &&
+      childNodes[indices[i + 1]] !== childNodes[indices[i]]
+    ) {
       curArr.push(indices[i + 1]);
       i += 1;
     }
@@ -20,7 +30,12 @@ function findMaxConsecutive(indices: number[]) {
   return res;
 }
 
-export function findMostFrequentNode(nodes: Node[], set: Set<number>) {
+export function findMostFrequentNode(
+  nodes: Node[],
+  childNodes: Node[],
+  set: Set<number>,
+  isText: boolean,
+) {
   const map = new WeakMap();
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
@@ -37,7 +52,13 @@ export function findMostFrequentNode(nodes: Node[], set: Set<number>) {
 
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    const indices = findMaxConsecutive(map.get(node));
+    const childNode = childNodes[i];
+
+    if (isText && textExcludeTag.has(childNode.nodeName)) {
+      continue;
+    }
+
+    const indices = findMaxConsecutive(map.get(node), childNodes);
     const count = indices.length;
 
     if (count > maxCount && isConsecutive(indices) && !set.has(indices[0])) {
@@ -83,7 +104,11 @@ export function getTextNodes(node: Node): Text[] {
     const child = childNodes[i];
     if (child.nodeType === Node.TEXT_NODE && child.nodeValue.trim()) {
       textNodes.push(child);
-    } else if (child.nodeType === Node.ELEMENT_NODE && child.nodeName !== 'SCRIPT' && child.nodeName !== 'STYLE') {
+    } else if (
+      child.nodeType === Node.ELEMENT_NODE &&
+      child.nodeName !== 'SCRIPT' &&
+      child.nodeName !== 'STYLE'
+    ) {
       textNodes.push(...getTextNodes(child));
     }
   }
@@ -106,10 +131,10 @@ export function countChineseCharacters(str) {
   let count = 0;
 
   for (let i = 0; i < str.length; i++) {
-      const charCode = str.charCodeAt(i);
-      if (charCode >= 0x4e00 && charCode <= 0x9fa5) {
-          count++;
-      }
+    const charCode = str.charCodeAt(i);
+    if (charCode >= 0x4e00 && charCode <= 0x9fa5) {
+      count++;
+    }
   }
 
   return count;
