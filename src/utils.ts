@@ -1,4 +1,5 @@
 const textExcludeTag = new Set(['H1', 'A', 'UL', 'LI']);
+const catalogExcludeTag = new Set(['H1', 'P']);
 
 function findMaxConsecutive(indices: number[], childNodes: Node[]) {
   if (indices.length === 0 || indices.length === 1) {
@@ -55,6 +56,10 @@ export function findMostFrequentNode(
     const childNode = childNodes[i];
 
     if (isText && textExcludeTag.has(childNode.nodeName)) {
+      continue;
+    }
+
+    if (!isText && catalogExcludeTag.has(node.nodeName)) {
       continue;
     }
 
